@@ -13,6 +13,8 @@ jobs:
           java-version: 21
       - name: Unzip project
         run: unzip -q SS-Client-src*.zip
+      - name: Raise Gradle download timeout
+        run: sed -i 's/networkTimeout=.*/networkTimeout=120000/' SSClient/gradle/wrapper/gradle-wrapper.properties
       - name: Build
         working-directory: SSClient
         run: chmod +x gradlew && ./gradlew build --no-daemon
