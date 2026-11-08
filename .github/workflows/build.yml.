@@ -1,0 +1,22 @@
+name: build
+on:
+  workflow_dispatch:
+  push:
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 21
+      - name: Unzip project
+        run: unzip -q SS-Client-src*.zip
+      - name: Build
+        working-directory: SSClient
+        run: chmod +x gradlew && ./gradlew build --no-daemon
+      - uses: actions/upload-artifact@v4
+        with:
+          name: ss-client
+          path: SSClient/build/libs/*.jar
